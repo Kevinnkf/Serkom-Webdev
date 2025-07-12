@@ -13,9 +13,9 @@ class Mahasiswa extends Model
         'namaLengkap',
         'alamat',
         'domisili',
-        'provinsi',
-        'kota',
-        'kecamatan',
+        'province_id',
+        'city_id',
+        'district_id',
         'nomorTelepon',
         'nomorHP',
         'email',
@@ -26,6 +26,24 @@ class Mahasiswa extends Model
         'kotaLahir',
         'jenisKelamin',
         'statusMenikah',
-        'agama',
+        'agama_id'
     ];
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(Districts::class);
+    }
+    public function agama()
+    {
+        return $this->belongsTo(Agama::class);
+    }
 }

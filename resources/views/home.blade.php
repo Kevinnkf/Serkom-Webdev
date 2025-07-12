@@ -21,6 +21,12 @@
         @endif
 
         {{-- Button to add new student --}}
+        <form action="{{ route('logout') }}" method="POST" class="inline-block">
+            @csrf
+            <button type="submit" class="inline-block px-6 py-3 bg-red-600 text-white font-semibold rounded-xl cursor-pointer transition-colors duration-200 ease-in-out border-none shadow-md hover:bg-red-700">
+                Logout
+            </button>
+        </form>
         <a href="{{ route('indexRegistration') }}" class="inline-block px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl cursor-pointer transition-colors duration-200 ease-in-out border-none no-underline shadow-md hover:bg-indigo-700 mb-6">Tambah Mahasiswa</a>
 
         {{-- Mahasiswa list table --}}
@@ -38,14 +44,17 @@
                 </thead>
                 <tbody>
                     @forelse($mahasiswas as $mahasiswa)
-                        <tr class="even:bg-gray-50 hover:bg-blue-50">
+                        {{-- Make the row clickable using JavaScript --}}
+                        <tr class="even:bg-gray-50 hover:bg-blue-50 cursor-pointer"
+                            onclick="window.location='{{ route('edit', $mahasiswa->id) }}'">
                             <td class="p-4 border border-gray-200 text-left">{{ $mahasiswa->namaLengkap }}</td>
                             <td class="p-4 border border-gray-200 text-left">{{ $mahasiswa->email }}</td>
                             <td class="p-4 border border-gray-200 text-left">{{ $mahasiswa->domisili }}</td>
                             <td class="p-4 border border-gray-200 text-left">{{ $mahasiswa->tanggalLahir }}</td>
                             <td class="p-4 border border-gray-200 text-left">{{ $mahasiswa->jenisKelamin }}</td>
                             <td class="p-4 border border-gray-200 text-left">
-                                <a href="{{ route('edit', $mahasiswa->id) }}" class="inline-block px-3 py-1 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 mr-2">Lihat</a>
+                                {{-- Aksi button --}}
+                                <a href="{{ route('edit', $mahasiswa->id) }}" class="inline-block px-3 py-1 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 mr-2">Edit</a>
                                 <form action="{{ route('destroy', $mahasiswa->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
@@ -60,6 +69,11 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        {{-- Pagination Links --}}
+       <div class="mt-6 flex m-3 justify-center">
+            {{ $mahasiswas->links('pagination::tailwind') }}
         </div>
     </div>
 </body>
